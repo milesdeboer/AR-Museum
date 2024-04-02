@@ -11,9 +11,11 @@ public class ObjectPlacementController : MonoBehaviour {
     public GameObject sampleObject;
 
     [SerializeField]
-    public GameObject debugConsole;
+    public GameObject HUD;
+
 
     private TextMeshPro touchCountText;
+    private TextMeshPro debugConsoleText;
 
     private GameObject spawnedObject;
     private ARRaycastManager raycastManager;
@@ -25,7 +27,10 @@ public class ObjectPlacementController : MonoBehaviour {
 
     private void Awake() {
         raycastManager = GetComponent<ARRaycastManager>();
-        touchCountText = debugConsole.transform.Find("TouchCount").gameObject.GetComponent<TextMeshPro>();
+        touchCountText = HUD.transform.Find("TouchCount").gameObject.GetComponent<TextMeshPro>();
+        debugConsoleText = HUD.transform.Find("DebugConsole").gameObject.GetComponent<TextMeshPro>();
+        if (raycastManager == null)
+            debugConsoleText.text = "AR Raycast Manager component not found";
     }
 
     // Update is called once per frame
@@ -40,11 +45,16 @@ public class ObjectPlacementController : MonoBehaviour {
                 List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
                 if (raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon)) {
-                    spawnedObject = Instantiate(sampleObject, hits[0].pose.position, Quaternion.identity);
+                    var hitPose = hits[0].pose;
+                    if (spawnedObject == null) {
+                        spawnedObject = Instantiate(sampleObject, hitPose.position, Quaternion.identity);
+                    } else {
+                        spawnedObject.transform.position = hitPose.position;
+                    }
                 }
             }
         } catch (Exception e) {
-            
+            debugConsoleText.text = "Error: " + e;
         }
     }
 }
