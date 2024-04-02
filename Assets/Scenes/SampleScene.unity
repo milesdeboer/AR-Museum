@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8464fe39f120914797de39c1cbee721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleObject: {fileID: 3435082017088263494, guid: 44db4c6b7d8decd4bbce7c8e4592118d,
+  sampleObject: {fileID: 1110242475994404767, guid: 48d7b5252e59cbc4889fbc5baa8a1c16,
     type: 3}
   HUD: {fileID: 1943927752}
 --- !u!1 &702413256
